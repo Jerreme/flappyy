@@ -17,7 +17,7 @@ public class FirstController : MonoBehaviour
     void Update()
     {
         delay += Time.deltaTime;
-        if (!TapsellStandardBanner.IsRequesting || delay >= MaxDelay)
+        if (delay >= MaxDelay) //!TapsellStandardBanner.IsRequesting ||
             SceneManager.LoadScene(1);
     }
 }

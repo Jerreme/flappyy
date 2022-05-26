@@ -30,6 +30,7 @@ public class ColorEffect : MonoBehaviour
         new Color[] {new Color(0.619f, 0.619f, 0.619f), new Color(0.980f, 0.980f, 0.980f)}, // 18
         new Color[] {new Color(0.376f, 0.490f, 0.545f), new Color(0.925f, 0.937f, 0.945f)}, // 19
     };
+
     private static int colorIndex;
 
     public static int ColorIndex
@@ -62,7 +63,7 @@ public class ColorEffect : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Play")
         {
-            InvokeRepeating("cahngeColorIndex", ChangeDelay, ChangeDelay);
+            InvokeRepeating("changeColorIndex", ChangeDelay, ChangeDelay);
         }
     }
 
@@ -72,6 +73,11 @@ public class ColorEffect : MonoBehaviour
         {
             ObstacleColor.BaseColor = Color.Lerp(ObstacleColor.BaseColor, ThemeColors[ColorIndex][0], ChangeDuration);
         }
+
+        //if (SceneManager.GetActiveScene().name == "MainMenu")
+        //{
+        //    PlayerPrefs.SetInt(MainController.Prefs_ColorIndex_Key, ColorIndex);
+        //}
     }
 
     void LateUpdate()
@@ -80,9 +86,10 @@ public class ColorEffect : MonoBehaviour
         {
             Camera.main.backgroundColor = Color.Lerp(Camera.main.backgroundColor, ThemeColors[ColorIndex][1], ChangeDuration);
         }
+
     }
 
-    private void cahngeColorIndex()
+    private void changeColorIndex()
     {
         ColorIndex++;
     }

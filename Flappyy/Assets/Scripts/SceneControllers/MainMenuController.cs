@@ -17,7 +17,7 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        TapsellStandardBanner.Hide();
+        //TapsellStandardBanner.Hide(); //Uncomment if you want ad
     }
 
     void Update()

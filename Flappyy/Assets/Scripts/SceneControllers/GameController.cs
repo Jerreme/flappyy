@@ -21,6 +21,9 @@ public class GameController : MonoBehaviour
     private static float playingBackgroungMusicTime;
     private AudioSource playingBackgroungMusic;
 
+    private float scoreRate = 1f;
+    private int incrementScoreBy = 1;
+
     public int Score
     {
         get { return score; }
@@ -75,8 +78,8 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1;
-        TapsellStandardBanner.Hide();
-        InvokeRepeating("addScore", 1f, 1f);
+        //TapsellStandardBanner.Hide(); //Uncomment if you want ad
+        InvokeRepeating("addScore", scoreRate, scoreRate);
     }
 
     void Update()
@@ -89,24 +92,25 @@ public class GameController : MonoBehaviour
 
     private void addScore()
     {
-        Score++;
+        Score += incrementScoreBy;
     }
 
     public void GameOver()
     {
         IsGameOver = true;
         Time.timeScale = 0;
-        TapsellStandardBanner.Show();
-        CancelInvoke("AddScore");
+        //TapsellStandardBanner.Show(); //Uncomment if you want ad
+        CancelInvoke("addScore");
+
         if (Score > BestScore)
         {
             BestScore = Score;
             PlayerPrefs.SetInt(MainController.Prefs_BestScore_Key, BestScore);
         }
 
-        ColorEffect.ColorIndex++;
+        //ColorEffect.ColorIndex++;
         PlayerPrefs.SetInt(MainController.Prefs_ColorIndex_Key, ColorEffect.ColorIndex);
-        ColorEffect.ColorIndex--;
+        //ColorEffect.ColorIndex--;
 
         PlayingUI.SetActive(false);
         GameOverScoreText.text = "SCORE\n" + score;

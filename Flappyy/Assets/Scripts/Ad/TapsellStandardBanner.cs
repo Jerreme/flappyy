@@ -4,7 +4,7 @@
 using TapsellSDK;
 #endif
 
-public class TapsellStandardBanner : MonoBehaviour
+public class TapsellStandardBanner: MonoBehaviour
 {
     private const string ID = "tehheqmjlacpqiqtmsnjdrpplpbnfighrhbempojslttssqfbpbtsqrijgmdlftkogatdd";
     public const string ZoneID = "5d6d6f0b607a790001e2a2a4";
