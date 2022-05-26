@@ -34,7 +34,11 @@ public class GameController : MonoBehaviour
             {
                 score = 0;
             }
+
             PlayingScoreText.text = "Score: " + score;
+
+            //ObstacleGenerator og = new ObstacleGenerator();
+            //PlayingScoreText.text = "Score: " + og.Speed;
         }
     }
 
@@ -99,13 +103,16 @@ public class GameController : MonoBehaviour
             BestScore = Score;
             PlayerPrefs.SetInt(MainController.Prefs_BestScore_Key, BestScore);
         }
+
         ColorEffect.ColorIndex++;
         PlayerPrefs.SetInt(MainController.Prefs_ColorIndex_Key, ColorEffect.ColorIndex);
         ColorEffect.ColorIndex--;
+
         PlayingUI.SetActive(false);
         GameOverScoreText.text = "SCORE\n" + score;
         GameOverBestScoreText.text = "BEST SCORE\n" + bestScore;
         GameOverUI.SetActive(true);
+
         playingBackgroungMusic.Pause();
         playingBackgroungMusicTime = playingBackgroungMusic.time;
         PlayerPrefs.Save();

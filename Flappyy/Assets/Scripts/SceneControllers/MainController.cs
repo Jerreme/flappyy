@@ -16,7 +16,7 @@ public class MainController : MonoBehaviour
 
     void Awake()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.sleepTimeout = SleepTimeout.SystemSetting; //.NeverSleep
         Application.targetFrameRate = 60;
     }
 }
