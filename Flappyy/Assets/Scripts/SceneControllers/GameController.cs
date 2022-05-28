@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     public Text GameOverScoreText;
     public Text GameOverBestScoreText;
 
+    public Text DebugText;
+
     private int score;
     private int bestScore;
     private static float playingBackgroungMusicTime;

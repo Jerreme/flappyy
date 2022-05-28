@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿
+using Assets.Scripts.ObstacleScripts;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObstacleGenerator : MonoBehaviour
 {
@@ -17,24 +21,27 @@ public class ObstacleGenerator : MonoBehaviour
     public GameObject Obstacle;
 
     private float time;
-    private Vector3 startPos;
-    private GameObject top;
-    private GameObject bottom;
-    private float topHeight;
-    private float topWidth;
-    private float bottomHeight;
-    private float bottomWidth;
+    protected Vector3 startPos;
+    protected GameObject top;
+    protected GameObject bottom;
+    protected float topHeight;
+    protected float topWidth;
+    protected float bottomHeight;
+    protected float bottomWidth;
 
-    private float topInterval
+    GameController gc;
+    public Text InGameScoreText;
+
+
+    protected float topInterval
     {
         get => (topWidth - Smooth / Speed) / Speed;
     }
-
     private float bottomInterval
     {
         get => (bottomWidth - Smooth / Speed) / Speed;
     }
-
+    // -----------------------------------------------
     private Vector3 topScale
     {
         get => new Vector3(topWidth, topHeight, 1);
@@ -44,21 +51,25 @@ public class ObstacleGenerator : MonoBehaviour
     {
         get => new Vector3(bottomWidth, bottomHeight, 1);
     }
-
+    // -----------------------------------------------
     void Awake()
     {
         startPos = new Vector3(15f, 0f, 0f);
         FillPool();
-    }
 
+        //For Debugging purposes
+        gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+    }
     void Start()
     {
         StartCoroutine(topRandGen());
         StartCoroutine(bottomRandGen());
-        // StartCoroutine(generator());
+        //StartCoroutine(generator());
     }
+    // -----------------------------------------------
 
-    private void FillPool()
+    // -----------------------------------------------
+    protected void FillPool()
     {
         Obstacles = new Queue<GameObject>();
         for (int i = 0; i < PoolSize; i++)
@@ -68,31 +79,56 @@ public class ObstacleGenerator : MonoBehaviour
             Obstacles.Enqueue(clone);
         }
     }
-
-    private GameObject GetObstacle()
+    protected GameObject GetObstacle()
     {
-        GameObject clone = Obstacles.Dequeue();
+        GameObject clone;
+
+        if (Obstacles.Count != 0)
+        {
+            clone = Obstacles.Dequeue();
+        } else {
+            FillPool();
+            clone = Obstacles.Dequeue();
+        }
+        
         clone.transform.position = startPos;
         updateSpeed();
         return clone;
     }
 
-    private void updateSpeed()
+    protected void updateSpeed()
     {
         Mover.Speed = Speed;
     }
+    // -----------------------------------------------
 
-    private void updateTopTransform()
+    // -----------------------------------------------
+    protected void updateTopTransform()
     {
         top.transform.localScale = topScale;
         top.transform.position = new Vector3(top.transform.position.x, 5 - top.transform.localScale.y / 2, 0f);
     }
 
-    private void updateBottomTransform()
+    protected void updateBottomTransform()
     {
         bottom.transform.localScale = bottomScale;
         bottom.transform.position = new Vector3(bottom.transform.position.x, -5 + bottom.transform.localScale.y / 2, 0f);
     }
+    //--------------------------------------------------
+    private float getScore()
+    {
+        return (float)Math.Round(float.Parse(InGameScoreText.text.Replace("Score: ", "")),2);
+    }
+    private static float map(float value, float fromLow, float fromHigh, float toLow, float toHigh)
+    {
+        return (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
+    }
+
+    const float height_defLow = 2.5f;
+    const float height_defHigh = 4.2f;
+
+    const float score_low = 0f;
+    const float score_high = 20f;
 
     private IEnumerator topRandGen()
     {
@@ -101,13 +137,15 @@ public class ObstacleGenerator : MonoBehaviour
         while (true)
         {
             top = GetObstacle();
-            topHeight = Random.Range(HeightRange.x, HeightRange.y);
+            HeightRange.x = height_defLow;
+            HeightRange.y = map(getScore(), score_low, score_high, height_defLow, height_defHigh);
+
+            topHeight = UnityEngine.Random.Range(HeightRange.x, HeightRange.y);
             updateTopTransform();
             yield return new WaitForSeconds(topInterval);
             top.SetActive(true);
         }
     }
-
     private IEnumerator bottomRandGen()
     {
         bottomWidth = WidthRange.x;
@@ -115,13 +153,17 @@ public class ObstacleGenerator : MonoBehaviour
         while (true)
         {
             bottom = GetObstacle();
-            bottomHeight = Random.Range(HeightRange.x, HeightRange.y);
+            HeightRange.x = height_defLow;
+            HeightRange.y = map(getScore(), score_low, score_high, height_defLow, height_defHigh);
+
+            bottomHeight = UnityEngine.Random.Range(HeightRange.x, HeightRange.y);
             updateBottomTransform();
             yield return new WaitForSeconds(bottomInterval);
             bottom.SetActive(true);
         }
     }
 
+    // -----------------------------------------------
     private IEnumerator generator()
     {
         Speed = 9;
@@ -158,7 +200,7 @@ public class ObstacleGenerator : MonoBehaviour
         }
     }
 
-    private IEnumerator gen1()
+    public IEnumerator gen1()
     {
         float height = HeightRange.x;
         float width = WidthRange.x;
@@ -181,11 +223,11 @@ public class ObstacleGenerator : MonoBehaviour
             else if (height >= HeightRange.y)
                 h = false;
 
-            width = Random.Range(WidthRange.x, WidthRange.y);
+            width = UnityEngine.Random.Range(WidthRange.x, WidthRange.y);
 
             topHeight = bottomHeight = height;
             topWidth = bottomWidth = width;
-            updateTopTransform();
+            this.updateTopTransform();
             updateBottomTransform();
 
             yield return new WaitForSeconds(topInterval);
@@ -195,8 +237,7 @@ public class ObstacleGenerator : MonoBehaviour
             bottom.SetActive(true);
         }
     }
-
-    private IEnumerator gen2()
+    public IEnumerator gen2()
     {
         topHeight = HeightRange.x;
         bottomHeight = HeightRange.y;
@@ -231,7 +272,7 @@ public class ObstacleGenerator : MonoBehaviour
                 h = false;
             }
 
-            width = Random.Range(WidthRange.x, WidthRange.y);
+            width = UnityEngine.Random.Range(WidthRange.x, WidthRange.y);
 
             topWidth = bottomWidth = width;
             updateTopTransform();
@@ -244,4 +285,6 @@ public class ObstacleGenerator : MonoBehaviour
             bottom.SetActive(true);
         }
     }
+    // -----------------------------------------------
+
 }

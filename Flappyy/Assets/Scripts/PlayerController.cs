@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) || 
             Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        {
+        { 
             Flap();
         }
     }

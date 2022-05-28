@@ -13,6 +13,6 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
-        transform.position += -Vector3.right * Time.deltaTime * Speed;
+        transform.position += Speed * Time.deltaTime * -Vector3.right;
     }
 }

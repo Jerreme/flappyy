@@ -20,11 +20,12 @@ public class CameraEffects : MonoBehaviour
 
     void LateUpdate()
     {
-        // rot1();
+        //rot1();
     }
 
     void rot1()
     {
+        //Delta = 8-Smooth 16-Hard 28-Crazy
         if (r)
             rot = Mathf.MoveTowards(rot, RotateRange.y, Time.deltaTime * Delta);
         else
