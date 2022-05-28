@@ -14,6 +14,9 @@ public class MainController : MonoBehaviour
     public const string Prefs_Sounds_Key = "sounds";
     public const int Prefs_Sounds_DefaultValue = 1;
 
+    public const string Prefs_Modes_Key = "modeDropdown_index";
+    public const int Prefs_Modes_DefIndex = 1;
+
     void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.SystemSetting; //.NeverSleep
