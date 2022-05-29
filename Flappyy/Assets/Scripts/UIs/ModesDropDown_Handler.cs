@@ -24,9 +24,9 @@ public class ModesDropDown_Handler : MonoBehaviour
     }
 
 
-    private const string mode1 = "Calm";
-    private const string mode2 = "Normal";
-    private const string mode3 = "Crazy";
+    private readonly string mode1 = "Calm";
+    private readonly string mode2 = "Normal";
+    private readonly string mode3 = "Crazy";
 
     void createModesDropdown()
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UIs;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,9 +24,6 @@ public class GameController : MonoBehaviour
     private static float playingBackgroungMusicTime;
     private AudioSource playingBackgroungMusic;
 
-    private float scoreRate = 1f;
-    private int incrementScoreBy = 1;
-
     public int Score
     {
         get { return score; }
@@ -41,7 +39,8 @@ public class GameController : MonoBehaviour
             }
 
             PlayingScoreText.text = "Score: " + score;
-
+            StaticVariables.game_Score = score;
+            Debug.Log("score: " + score);
             //ObstacleGenerator og = new ObstacleGenerator();
             //PlayingScoreText.text = "Score: " + og.Speed;
         }
@@ -68,10 +67,15 @@ public class GameController : MonoBehaviour
     {
         IsGameOver = false;
         IsGamePaused = false;
+
         playingBackgroungMusic = GetComponent<AudioSource>();
         playingBackgroungMusic.time = playingBackgroungMusicTime;
+
         Score = 0;
+        StaticVariables.game_Score = Score;
+
         BestScore = PlayerPrefs.GetInt(MainController.Prefs_BestScore_Key, MainController.Prefs_BestScore_DefaultValue);
+
         PlayingUI.SetActive(true);
         GameOverUI.SetActive(false);
         PauseMenuUI.SetActive(false);
@@ -81,7 +85,7 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         //TapsellStandardBanner.Hide(); //Uncomment if you want ad
-        InvokeRepeating("addScore", scoreRate, scoreRate);
+        InvokeRepeating("addScore", 2, StaticVariables.scoreRate);
     }
 
     void Update()
@@ -94,7 +98,7 @@ public class GameController : MonoBehaviour
 
     private void addScore()
     {
-        Score += incrementScoreBy;
+        Score += StaticVariables.incrementScoreBy;
     }
 
     public void GameOver()

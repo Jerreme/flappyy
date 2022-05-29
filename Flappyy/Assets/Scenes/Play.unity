@@ -1464,7 +1464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1018392367
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2378,12 +2378,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PoolSize: 50
-  Speed: 10
+  Speed: 8
   Smooth: 5
-  WidthRange: {x: 2, y: 3}
-  HeightRange: {x: 2.5, y: 4.5}
-  Delta: 0.5
-  D: 1
+  WidthRange: {x: 5, y: 5}
+  HeightRange: {x: 2.5, y: 3.5}
   ObstaclesContainer: {fileID: 1653655922}
   Obstacle: {fileID: 2993170491500629864, guid: ab762a1618f3d0444ac0a93479885127,
     type: 3}
