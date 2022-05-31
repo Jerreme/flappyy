@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UIs;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +14,11 @@ public class CameraEffects : MonoBehaviour
     private bool r;
     private float target;
 
+    private int mode;
+
     void Start()
     {
+        mode = PlayerPrefs.GetInt(MainController.Prefs_Modes_Key, MainController.Prefs_Modes_DefIndex);
         StartCoroutine(rotation());
     }
 
@@ -39,8 +43,61 @@ public class CameraEffects : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, rot);
     }
 
+    private readonly float degreeCalm = -3f;
+    private readonly float degreeNormal = 0f;
+    private readonly float degreeCrazy = 3f;
+
+    private float newTarget()
+    {
+        if (mode == 0)
+        {
+            return degreeCalm + additional();
+        }
+        else if (mode == 1)
+        {
+            return degreeNormal + additional();
+        }
+        else if (mode == 2)
+        {
+            return degreeCrazy + additional();
+        }
+        else
+        {
+            return degreeNormal;
+        }
+    }
+    private float additional()
+    {
+        if (StaticVariables.game_Score > 500) 
+        {
+            return 5f;
+        }
+        else if (StaticVariables.game_Score > 200)
+        {
+            return 2f;
+        }
+        return 0f;
+    }
+
+    IEnumerator rotation()
+    {
+        while (true)
+        {
+            target = Target + newTarget();
+            yield return StartCoroutine(rot2());
+            target = 0;
+            yield return StartCoroutine(rot2());
+
+            target = -Target + -newTarget();
+            yield return StartCoroutine(rot2());
+            target = 0;
+            yield return StartCoroutine(rot2());
+        }
+    }
+    
     IEnumerator rot2()
     {
+        Debug.Log(target);
         float t = 0;
         yield return new WaitForSeconds(Delay);
         while (t < 2)
@@ -49,20 +106,5 @@ public class CameraEffects : MonoBehaviour
             t += Time.fixedDeltaTime;
             yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-    }
-
-    IEnumerator rotation()
-    {
-        while (true)
-        {
-            target = Target;
-            yield return StartCoroutine(rot2());
-            target = 0;
-            yield return StartCoroutine(rot2());
-            target = -Target;
-            yield return StartCoroutine(rot2());
-            target = 0;
-            yield return StartCoroutine(rot2());
-        }
-    }
 }
+    }

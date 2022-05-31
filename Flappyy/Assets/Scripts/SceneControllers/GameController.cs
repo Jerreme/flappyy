@@ -40,7 +40,6 @@ public class GameController : MonoBehaviour
 
             PlayingScoreText.text = "Score: " + score;
             StaticVariables.game_Score = score;
-            Debug.Log("score: " + score);
             //ObstacleGenerator og = new ObstacleGenerator();
             //PlayingScoreText.text = "Score: " + og.Speed;
         }
@@ -65,6 +64,8 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+//        StaticVariables.resetVariables();
+
         IsGameOver = false;
         IsGamePaused = false;
 
@@ -85,7 +86,8 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 1;
         //TapsellStandardBanner.Hide(); //Uncomment if you want ad
-        InvokeRepeating("addScore", 2, StaticVariables.scoreRate);
+        //InvokeRepeating("addScore", 1f, StaticVariables.scoreRate);
+        StartCoroutine(addScore());
     }
 
     void Update()
@@ -96,9 +98,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void addScore()
+    private IEnumerator addScore()
     {
-        Score += StaticVariables.incrementScoreBy;
+        yield return new WaitForSeconds(1f);
+
+        while (true)
+        {
+            Score += StaticVariables.incrementScoreBy;
+            yield return new WaitForSeconds(StaticVariables.scoreRate);
+        }
+
+            
     }
 
     public void GameOver()
@@ -106,7 +116,7 @@ public class GameController : MonoBehaviour
         IsGameOver = true;
         Time.timeScale = 0;
         //TapsellStandardBanner.Show(); //Uncomment if you want ad
-        CancelInvoke("addScore");
+        //CancelInvoke("addScore");
 
         if (Score > BestScore)
         {
@@ -125,6 +135,7 @@ public class GameController : MonoBehaviour
 
         playingBackgroungMusic.Pause();
         playingBackgroungMusicTime = playingBackgroungMusic.time;
+
         PlayerPrefs.Save();
     }
 
@@ -157,7 +168,7 @@ public class GameController : MonoBehaviour
             {
                 playingBackgroungMusic.UnPause();
             }
-            Time.timeScale = 1;
+            Time.timeScale = 1f;
         }
     }
 }
