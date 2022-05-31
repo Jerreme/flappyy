@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.UIs;
-using System;
 
 namespace Assets.Scripts.ObstacleScripts
 {
@@ -8,18 +7,12 @@ namespace Assets.Scripts.ObstacleScripts
         const float height_defLow = 2.5f;
         const float height_defHigh = 4.2f;
 
-
         public float getScore()
         {
             return StaticVariables.game_Score;
             //return (float)Math.Round(float.Parse(InGameScoreText.text.Replace("Score: ", "")), 2);
         }
 
-        // Summary:
-        // Re-maps a number from one range to another.
-        // That is, a value of fromLow would get mapped
-        // to toLow, a value of fromHigh to toHigh, values
-        // in-between to values in-between, etc.
         public float map(float value, float fromLow, float fromHigh, float toLow, float toHigh)
         {
             if (value < fromLow) 
@@ -29,7 +22,5 @@ namespace Assets.Scripts.ObstacleScripts
             else 
                 return (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
         }
-
-        
     }
 }

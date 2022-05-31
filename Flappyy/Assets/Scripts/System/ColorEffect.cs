@@ -57,6 +57,7 @@ public class ColorEffect : MonoBehaviour
         colorIndex = PlayerPrefs.GetInt(MainController.Prefs_ColorIndex_Key, MainController.Prefs_ColorIndex_DefaultValue);
         Camera.main.backgroundColor = ThemeColors[colorIndex][1];
         ObstacleColor.BaseColor = ThemeColors[colorIndex][0];
+        PlayerColor.CharColor = ThemeColors[colorIndex][5];
     }
 
     void Start()
@@ -74,6 +75,10 @@ public class ColorEffect : MonoBehaviour
             ObstacleColor.BaseColor = Color.Lerp(ObstacleColor.BaseColor, ThemeColors[ColorIndex][0], ChangeDuration);
         }
 
+        if (!PlayerColor.CharColor.Equals(ThemeColors[ColorIndex][0]))
+        {
+            PlayerColor.CharColor = Color.LerpUnclamped(PlayerColor.CharColor, ThemeColors[ColorIndex][0], ChangeDuration);
+        }
         //if (SceneManager.GetActiveScene().name == "MainMenu")
         //{
         //    PlayerPrefs.SetInt(MainController.Prefs_ColorIndex_Key, ColorIndex);

@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.UIs;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraEffects : MonoBehaviour
@@ -97,7 +96,6 @@ public class CameraEffects : MonoBehaviour
     
     IEnumerator rot2()
     {
-        Debug.Log(target);
         float t = 0;
         yield return new WaitForSeconds(Delay);
         while (t < 2)

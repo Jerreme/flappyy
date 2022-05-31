@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
     // PlayerPrefs constants
-    public const string Prefs_BestScore_Key = "best_score";
-    public const int Prefs_BestScore_DefaultValue = 0;
+    public const int Prefs_HS_DefValue = 0;
+    public const string Prefs_CalmKey_HS = "calm_hscore";
+    public const string Prefs_NormalKey_HS = "normal_hscore";
+    public const string Prefs_CrazyKey_HS = "crazy_score";
 
     public const string Prefs_ColorIndex_Key = "color_index";
     public const int Prefs_ColorIndex_DefaultValue = 1;

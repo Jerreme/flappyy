@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Assets.Scripts.UIs
 {
     class StaticVariables
@@ -13,7 +8,6 @@ namespace Assets.Scripts.UIs
 
         public static float game_Speed { get; set; }
         public static float game_Smooth { get; set; }
-
 
         public static int game_PoolSize { get; set; }
         public static int game_Score { get; set; } 

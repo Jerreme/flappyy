@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.UIs;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -48,6 +47,7 @@ public class GameController : MonoBehaviour
     public int BestScore
     {
         get { return bestScore; }
+
         set
         {
             if (value >= 0)
@@ -62,10 +62,42 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private int HighScore
+    {
+        get
+        {
+            if (mode == 0)
+                BestScore = PlayerPrefs.GetInt(MainController.Prefs_CalmKey_HS, MainController.Prefs_HS_DefValue);
+            else if (mode == 1)
+                BestScore = PlayerPrefs.GetInt(MainController.Prefs_NormalKey_HS, MainController.Prefs_HS_DefValue);
+            else if (mode == 2)
+                BestScore = PlayerPrefs.GetInt(MainController.Prefs_CrazyKey_HS, MainController.Prefs_HS_DefValue);
+            else
+                BestScore = PlayerPrefs.GetInt(MainController.Prefs_NormalKey_HS, MainController.Prefs_HS_DefValue);
+            return BestScore;
+        }
+
+        set
+        {
+            if (mode == 0)
+                PlayerPrefs.SetInt(MainController.Prefs_CalmKey_HS, value);
+            else if (mode == 1)
+                PlayerPrefs.SetInt(MainController.Prefs_NormalKey_HS, value);
+            else if (mode == 2)
+                PlayerPrefs.SetInt(MainController.Prefs_CrazyKey_HS, value);
+            else
+                PlayerPrefs.SetInt(MainController.Prefs_NormalKey_HS, value);
+            BestScore = value;
+        }
+    }
+
+    int mode;
+
     void Awake()
     {
-//        StaticVariables.resetVariables();
+        //        StaticVariables.resetVariables();
 
+        mode = PlayerPrefs.GetInt(MainController.Prefs_Modes_Key, MainController.Prefs_Modes_DefIndex);
         IsGameOver = false;
         IsGamePaused = false;
 
@@ -75,7 +107,8 @@ public class GameController : MonoBehaviour
         Score = 0;
         StaticVariables.game_Score = Score;
 
-        BestScore = PlayerPrefs.GetInt(MainController.Prefs_BestScore_Key, MainController.Prefs_BestScore_DefaultValue);
+        BestScore = HighScore;
+
 
         PlayingUI.SetActive(true);
         GameOverUI.SetActive(false);
@@ -120,8 +153,7 @@ public class GameController : MonoBehaviour
 
         if (Score > BestScore)
         {
-            BestScore = Score;
-            PlayerPrefs.SetInt(MainController.Prefs_BestScore_Key, BestScore);
+            HighScore = Score;
         }
 
         //ColorEffect.ColorIndex++;
@@ -130,7 +162,7 @@ public class GameController : MonoBehaviour
 
         PlayingUI.SetActive(false);
         GameOverScoreText.text = "SCORE\n" + score;
-        GameOverBestScoreText.text = "BEST SCORE\n" + bestScore;
+        GameOverBestScoreText.text = "HIGH SCORE\n" + bestScore;
         GameOverUI.SetActive(true);
 
         playingBackgroungMusic.Pause();
